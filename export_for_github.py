@@ -12,7 +12,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 DOCS = ROOT / "docs"
 BASE = "http://127.0.0.1:8080"
-PAGES = [("/", "index.html"), ("/?page_id=113", "oferta/index.html")]
+PAGES = [
+    ("/", "index.html"),
+    ("/?page_id=113", "oferta/index.html"),
+    ("/?page_id=99", "moje-realizacje/index.html"),
+    ("/?page_id=72", "o-mnie/index.html"),
+    ("/?page_id=189", "zdjecia-z-planow/index.html"),
+    ("/?page_id=74", "jak-dzialam/index.html"),
+]
+PAGE_ROUTES = {
+    73: "index.html",
+    113: "oferta/index.html",
+    99: "moje-realizacje/index.html",
+    72: "o-mnie/index.html",
+    189: "zdjecia-z-planow/index.html",
+    74: "jak-dzialam/index.html",
+}
 ASSET_RE = re.compile(r"(?:https?://localhost:8080)?(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)")
 CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)(.*?)\1\s*\)", re.I)
 
@@ -50,6 +65,27 @@ def rewrite_asset_refs(source: str, from_file: Path) -> str:
         return relative_url(path, from_file) if path else match.group(0)
 
     return ASSET_RE.sub(replace, source)
+
+
+def rewrite_page_links(source: str, from_file: Path) -> str:
+    def replace(match: re.Match[str]) -> str:
+        page_id = int(match.group(1))
+        target = PAGE_ROUTES.get(page_id)
+        if not target:
+            return match.group(0)
+        route_dir = (DOCS / target).parent.resolve()
+        relative = os.path.relpath(route_dir, from_file.parent.resolve()).replace(os.sep, "/")
+        if relative == ".":
+            relative = "./"
+        else:
+            relative += "/"
+        return relative + (match.group(2) or "")
+
+    return re.sub(
+        r"(?:https?://(?:localhost|127\.0\.0\.1):8080)?/\?page_id=(\d+)(#[^\"'<>\s]*)?",
+        replace,
+        source,
+    )
 
 
 def main() -> None:
@@ -100,6 +136,16 @@ def main() -> None:
         html = re.sub(r"<link\b[^>]*localhost:8080[^>]*>", "", html, flags=re.I)
         html = re.sub(r"https?://localhost:8080(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)",
                       lambda m: relative_url(asset_path(m.group(1)) or m.group(1), target), html)
+        html = rewrite_page_links(html, target)
+        html = html.replace(
+            "</head>",
+            '<style id="static-navigation">'
+            '.wp-block-navigation__responsive-container-open,.wp-block-navigation__responsive-container-close{display:none!important}'
+            '.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}'
+            '.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}'
+            '.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}'
+            '</style></head>',
+        )
         is_home = target == DOCS / "index.html"
         if is_home:
             html = html.replace('href="/?page_id=113"', 'href="./oferta/"')
@@ -129,7 +175,7 @@ def main() -> None:
                 '<p class="wpcf7-static-note">To statyczny podgląd — formularz nie wysyła wiadomości. '
                 'Skontaktuj się ze mną przez Instagram.</p><div class="wpcf7-response-output"',
             )
-        target.write_text(html, encoding="utf-8")
+        target.write_text(re.sub(r"[ \t]+\n", "\n", html), encoding="utf-8")
 
     print(f"Created static pages and downloaded {len(seen)} WordPress assets into {DOCS}")
 
