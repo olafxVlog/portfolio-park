@@ -141,6 +141,16 @@ def main() -> None:
         html = re.sub(r"https?://localhost:8080(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)",
                       lambda m: relative_url(asset_path(m.group(1)) or m.group(1), target), html)
         html = rewrite_page_links(html, target)
+        # Elementor's frontend CSS is emitted by WordPress's runtime, so it is
+        # absent from static HTML. Load the downloaded local stylesheets here.
+        if target == DOCS / "moje-realizacje/index.html":
+            elementor_css = (
+                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/base-desktop.css">'
+                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/local-99-frontend-desktop.css">'
+                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/local-99-frontend-mobile.css">'
+                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/post-99.css">'
+            )
+            html = html.replace("</head>", elementor_css + "</head>")
         html = html.replace(
             "</head>",
             '<style id="static-navigation">'
@@ -148,7 +158,7 @@ def main() -> None:
             '.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}'
             '.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}'
             '.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}'
-            '.portfolio-brand-nav{display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;align-items:center!important;gap:20px!important;margin-bottom:36px!important}'
+            '.portfolio-brand-nav{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;overflow-x:auto!important;white-space:nowrap!important}'
             '.portfolio-brand-nav p{margin:0!important}'
             '.portfolio-brand-nav a{color:#d68cf1!important;text-decoration:none!important}'
             '@media(max-width:760px){.portfolio-brand-nav{gap:10px!important}.portfolio-brand-nav p{font-size:13px!important}}'
