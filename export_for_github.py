@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import os
+import html
+import json
 import re
 import urllib.parse
 import urllib.request
@@ -30,6 +32,9 @@ PAGE_ROUTES = {
 }
 ASSET_RE = re.compile(r"(?:https?://localhost:8080)?(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)")
 CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)(.*?)\1\s*\)", re.I)
+YOUTUBE_BLOCK_RE = re.compile(
+    r'<div(?P<attrs>[^>]*\be-youtube-base\b[^>]*)>\s*</div>', re.I | re.S
+)
 
 
 def fetch(url: str) -> bytes:
@@ -90,6 +95,34 @@ def rewrite_page_links(source: str, from_file: Path) -> str:
     )
 
 
+def render_youtube_embeds(source: str) -> str:
+    """Replace Elementor's JS-rendered YouTube placeholders with static iframes."""
+    def replace(match: re.Match[str]) -> str:
+        attrs = match.group("attrs")
+        settings_match = re.search(r'data-settings="([^"]*)"', attrs)
+        if not settings_match:
+            return match.group(0)
+        try:
+            settings = json.loads(html.unescape(settings_match.group(1)))
+        except (ValueError, TypeError):
+            return match.group(0)
+        source_url = settings.get("source", "")
+        video_match = re.search(r"(?:youtu\.be/|youtube\.com/(?:shorts/|embed/|watch\\?v=))([A-Za-z0-9_-]{6,})", source_url)
+        if not video_match:
+            return match.group(0)
+        video_id = video_match.group(1)
+        title = html.escape(f"Film OlafxVlog {video_id}", quote=True)
+        return (
+            f'<div{attrs}>'
+            f'<iframe src="https://www.youtube-nocookie.com/embed/{video_id}" '
+            f'title="{title}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; '
+            'encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
+            '</div>'
+        )
+
+    return YOUTUBE_BLOCK_RE.sub(replace, source)
+
+
 def main() -> None:
     DOCS.mkdir(exist_ok=True)
     fetched_pages: list[tuple[Path, str]] = []
@@ -141,6 +174,8 @@ def main() -> None:
         html = re.sub(r"https?://localhost:8080(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)",
                       lambda m: relative_url(asset_path(m.group(1)) or m.group(1), target), html)
         html = rewrite_page_links(html, target)
+        if target == DOCS / "moje-realizacje/index.html":
+            html = render_youtube_embeds(html)
         # Elementor's frontend CSS is emitted by WordPress's runtime, so it is
         # absent from static HTML. Load the downloaded local stylesheets here.
         if target == DOCS / "moje-realizacje/index.html":
@@ -161,7 +196,11 @@ def main() -> None:
             '.portfolio-brand-nav{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;overflow-x:auto!important;white-space:nowrap!important}'
             '.portfolio-brand-nav p{margin:0!important}'
             '.portfolio-brand-nav a{color:#d68cf1!important;text-decoration:none!important}'
+            '.elementor-99 .e-youtube-base{display:inline-block!important;vertical-align:top;width:500px;max-width:calc(100vw - 48px);height:auto!important;aspect-ratio:16/9;margin:10px;overflow:hidden}'
+            '.elementor-99 .e-youtube-base iframe{display:block;width:100%;height:100%;border:0}'
+            '.elementor-99 .e-235416d-37e6544,.elementor-99 .e-8392875-91f4352,.elementor-99 .e-40be9d1-95b2715,.elementor-99 .e-2113d0b-c2fb46c,.elementor-99 .e-3a06204-0a8653b{width:250px;aspect-ratio:9/16}'
             '@media(max-width:760px){.portfolio-brand-nav{gap:10px!important}.portfolio-brand-nav p{font-size:13px!important}}'
+            '@media(max-width:767px){.elementor-99 .e-youtube-base{width:300px;max-width:calc(100vw - 48px);margin:8px auto;display:block!important}.elementor-99 .e-235416d-37e6544,.elementor-99 .e-8392875-91f4352,.elementor-99 .e-40be9d1-95b2715,.elementor-99 .e-2113d0b-c2fb46c,.elementor-99 .e-3a06204-0a8653b{width:220px}}'
             '</style></head>',
         )
         is_home = target == DOCS / "index.html"
