@@ -42,6 +42,8 @@ def asset_path(value: str) -> str | None:
     value = urllib.parse.unquote(value.split("#", 1)[0].split("?", 1)[0])
     if not value.startswith(("/wp-content/", "/wp-includes/")):
         return None
+    if ";" in value or "*" in value:
+        return None
     return value
 
 
@@ -121,6 +123,8 @@ def main() -> None:
             source = data.decode("utf-8", "replace")
             for _, value in CSS_URL_RE.findall(source):
                 parsed = urllib.parse.urlparse(value)
+                if parsed.scheme not in ("", "http", "https"):
+                    continue
                 if parsed.netloc and parsed.netloc not in ("localhost:8080", "127.0.0.1:8080"):
                     continue
                 ref = parsed.path if parsed.path.startswith("/") else urllib.parse.urljoin(path, parsed.path)
@@ -144,6 +148,10 @@ def main() -> None:
             '.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}'
             '.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}'
             '.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}'
+            '.portfolio-brand-nav{display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;align-items:center!important;gap:20px!important;margin-bottom:36px!important}'
+            '.portfolio-brand-nav p{margin:0!important}'
+            '.portfolio-brand-nav a{color:#d68cf1!important;text-decoration:none!important}'
+            '@media(max-width:760px){.portfolio-brand-nav{gap:10px!important}.portfolio-brand-nav p{font-size:13px!important}}'
             '</style></head>',
         )
         is_home = target == DOCS / "index.html"

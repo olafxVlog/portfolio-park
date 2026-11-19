@@ -38,6 +38,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
 /*# sourceURL=../wp-includes/blocks/heading/style.min.css */
 </style>
+
 <style id="wp-block-post-content-inline-css">
 .wp-block-post-content{display:flow-root}
 /*# sourceURL=../wp-includes/blocks/post-content/style.min.css */
@@ -86,7 +87,20 @@ html, body {
 .wpcf7 form textarea::placeholder {
   color: #c6c3cc !important;
   opacity: 1;
+}.elementor-nav-menu a,
+.elementor-nav-menu .elementor-item {
+  color: #d68cf1 !important;
 }
+
+.elementor-nav-menu .elementor-item:hover,
+.elementor-nav-menu .elementor-item.elementor-item-active {
+  color: #ffffff !important;
+}
+
+.elementor-nav-menu--main .elementor-nav-menu {
+  background: transparent !important;
+}
+
 :root :where(.wp-block-navigation){font-family: var(--wp--preset--font-family--epilogue);font-size: var(--wp--preset--font-size--small);font-weight: 600;letter-spacing: 1px;}
 :root :where(.wp-block-navigation a:where(:not(.wp-element-button))){color: var(--wp--preset--color--secondary);}
 :root :where(.wp-block-navigation a:where(:not(.wp-element-button)):hover){color: var(--wp--preset--color--primary);}
@@ -116,6 +130,8 @@ html, body {
 
 
 <link rel='stylesheet' id='elementor-gf-dmsans-css' href='https://fonts.googleapis.com/css?family=DM+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&#038;display=swap&#038;subset=latin-ext' media='all' />
+
+
 
 <meta name="generator" content="WordPress 7.1.4" />
 
@@ -147,19 +163,49 @@ html, body {
 @font-face{font-family:Epilogue;font-style:normal;font-weight:600;font-display:fallback;src:url('../wp-content/themes/devotion/assets/fonts/epilogue/Epilogue-SemiBold.ttf') format('truetype');}
 @font-face{font-family:Epilogue;font-style:normal;font-weight:700;font-display:fallback;src:url('../wp-content/themes/devotion/assets/fonts/epilogue/Epilogue-Bold.ttf') format('truetype');}
 </style>
-<style id="static-navigation">.wp-block-navigation__responsive-container-open,.wp-block-navigation__responsive-container-close{display:none!important}.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}</style></head>
+<style id="olafxvlog-transparent-menu">
+
+/* Nadpisanie inline style background-color na nawigacji */
+.wp-block-group[style*="background-color: #1c1b19"],
+.wp-block-group[style*="background-color:#1c1b19"] {
+    background-color: transparent !important;
+}
+
+/* Przezroczyste menu */
+.wp-block-navigation,
+.wp-block-navigation ul,
+.wp-block-navigation.has-background,
+.wp-block-navigation__responsive-container,
+.wp-block-navigation__responsive-container-content,
+.has-secondary-background-color {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Ramka po lewej - reset marginesów Elementora */
+.elementor .e-con,
+.elementor-section-wrap {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+</style>
+<style id="static-navigation">.wp-block-navigation__responsive-container-open,.wp-block-navigation__responsive-container-close{display:none!important}.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}.portfolio-brand-nav{display:flex!important;flex-wrap:wrap!important;justify-content:flex-start!important;align-items:center!important;gap:20px!important;margin-bottom:36px!important}.portfolio-brand-nav p{margin:0!important}.portfolio-brand-nav a{color:#d68cf1!important;text-decoration:none!important}@media(max-width:760px){.portfolio-brand-nav{gap:10px!important}.portfolio-brand-nav p{font-size:13px!important}}</style></head>
 
 <body class="wp-singular page-template-default page page-id-74 wp-custom-logo wp-embed-responsive wp-theme-devotion ally-default elementor-default elementor-kit-49 elementor-page elementor-page-74">
 
 <div class="wp-site-blocks">
-<div class="wp-block-group alignfull has-background is-layout-flow wp-container-core-group-is-layout-b9f273c2 wp-block-group-is-layout-flow" style="background-color:#d8d6dc;margin-top:0px;margin-bottom:0px;padding-top:0px;padding-bottom:0px">
-<div style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px" class="entry-content wp-block-post-content is-layout-flow wp-container-core-post-content-is-layout-b9f273c2 wp-block-post-content-is-layout-flow">
-<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained has-global-padding wp-container-core-group-is-layout-61bd3659" style="color:#ffffff;background-color:#1c1b19;padding-top:14px;padding-right:24px;padding-bottom:14px;padding-left:24px"><nav class="has-text-color has-white-color has-background has-secondary-background-color is-responsive items-justified-center wp-block-navigation is-content-justification-center is-layout-flex wp-container-core-navigation-is-layout-f4715095 wp-block-navigation-is-layout-flex" aria-label="Menu: Nagłówek 2"
+<div class="wp-block-group alignfull has-background is-layout-flow wp-container-core-group-is-layout-b9f273c2 wp-block-group-is-layout-flow" style="background-color:#17151c;margin-top:0px;margin-bottom:0px;padding-top:0px;padding-bottom:0px">
+<div style="padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px" class="entry-content wp-block-post-content is-layout-flow wp-container-core-post-content-is-layout-b9f273c2 wp-block-post-content-is-layout-flow">		<div data-elementor-type="wp-page" data-elementor-id="74" class="elementor elementor-74">
+				<div class="elementor-element elementor-element-5502da81 e-con-full e-flex e-con e-parent" data-id="5502da81" data-element_type="container" data-e-type="container">
+				<div class="elementor-element elementor-element-27c29e32 elementor-widget elementor-widget-text-editor" data-id="27c29e32" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
+
+<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained has-global-padding wp-container-core-group-is-layout-61bd3659" style="color: #ffffff; background-color: #1c1b19; padding: 14px 24px 14px 24px;"><nav class="has-text-color has-white-color has-background has-secondary-background-color is-responsive items-justified-center wp-block-navigation is-content-justification-center is-layout-flex wp-container-core-navigation-is-layout-f4715095 wp-block-navigation-is-layout-flex" aria-label="Menu: Nagłówek 2 2"
 		 data-wp-interactive="core/navigation" data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'><button aria-haspopup="dialog" aria-label="Rozwiń menu" class="wp-block-navigation__responsive-container-open"
 				data-wp-on--click="actions.openMenuOnClick"
 				data-wp-on--keydown="actions.handleMenuKeydown"
 			><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7.5h16v1.5H4z"></path><path d="M4 15h16v1.5H4z"></path></svg></button>
-				<div class="wp-block-navigation__responsive-container has-text-color has-white-color has-background has-secondary-background-color"  id="modal-1"
+				<div class="wp-block-navigation__responsive-container has-text-color has-white-color has-background has-secondary-background-color"  id="modal-2"
 				data-wp-class--has-modal-open="state.isMenuOpen"
 				data-wp-class--is-menu-open="state.isMenuOpen"
 				data-wp-watch="callbacks.initMenu"
@@ -178,112 +224,84 @@ html, body {
 			><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg></button>
 							<div class="wp-block-navigation__responsive-container-content"
 				data-wp-watch="callbacks.focusFirstElement"
-			 id="modal-1-content">
-								<ul class="wp-block-navigation__container has-text-color has-white-color has-background has-secondary-background-color is-responsive items-justified-center wp-block-navigation"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../"><span class="wp-block-navigation-item__label">Start</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../moje-realizacje/"><span class="wp-block-navigation-item__label">Moje realizacje</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../o-mnie/"><span class="wp-block-navigation-item__label">O mnie</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../zdjecia-z-planow/"><span class="wp-block-navigation-item__label">Zdjęcia z planów</span></a></li><li class="wp-block-navigation-item current-menu-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="./" aria-current="page"><span class="wp-block-navigation-item__label">Jak działam</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../oferta/"><span class="wp-block-navigation-item__label">Oferta</span></a></li></ul>
+			 id="modal-2-content">
+								<ul class="wp-block-navigation__container has-text-color has-white-color has-background has-secondary-background-color is-responsive items-justified-center wp-block-navigation"><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../"><span class="wp-block-navigation-item__label">Start</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../moje-realizacje/"><span class="wp-block-navigation-item__label">Moje realizacje</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../o-mnie/"><span class="wp-block-navigation-item__label">O mnie</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../zdjecia-z-planow/"><span class="wp-block-navigation-item__label">Zdjęcia z planów</span></a></li><li class="wp-block-navigation-item current-menu-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../jak-dzialam/" aria-current="page"><span class="wp-block-navigation-item__label">Jak działam</span></a></li><li class="wp-block-navigation-item wp-block-navigation-link"><a class="wp-block-navigation-item__content"  href="../oferta/"><span class="wp-block-navigation-item__label">Oferta</span></a></li></ul>
 
 							</div>
 						</div>
 					</div>
 				</div></nav></div>
 
+<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained has-global-padding wp-container-core-group-is-layout-999d1d4d" style="color: #f3f1f5; background-color: #17151c; padding: 88px 24px 88px 24px;">
+<p class="wp-block-paragraph" style="color: #d68cf1; font-size: 12px; font-weight: bold; letter-spacing: 2px;">OD POMYSŁU DO GOTOWEGO MATERIAŁU</p>
 
-<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained has-global-padding wp-container-core-group-is-layout-999d1d4d" style="color:#f3f1f5;background-color:#17151c;padding-top:88px;padding-right:24px;padding-bottom:88px;padding-left:24px">
-<p class="wp-block-paragraph" style="color:#d68cf1;font-size:12px;font-weight:700;letter-spacing:2px">OD POMYSŁU DO GOTOWEGO MATERIAŁU</p>
+<h1 class="wp-block-heading has-white-color has-text-color" style="font-size: clamp(44px, 7vw, 76px); line-height: 1.08;">Jak działam?</h1>
 
-
-<h1 class="wp-block-heading has-white-color has-text-color" style="font-size:clamp(44px, 7vw, 76px);line-height:1.08">Jak działam?</h1>
-
-
-<p class="wp-block-paragraph" style="color:#d2cfd8;font-size:20px;line-height:1.7">Przejrzysty proces pozwala od początku wiedzieć, co ustalamy i jaki będzie kolejny krok.</p>
-
+<p class="wp-block-paragraph" style="color: #d2cfd8; font-size: 20px; line-height: 1.7;">Przejrzysty proces pozwala od początku wiedzieć, co ustalamy i jaki będzie kolejny krok.</p>
 </div>
 
-
-<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#111116;padding-top:72px;padding-right:24px;padding-bottom:72px;padding-left:24px"><!-- wp:columns [] -->
+<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #111116; padding: 72px 24px 72px 24px;"><!-- wp:columns [] -->
 <div class="wp-block-columns has-global-padding is-layout-constrained wp-container-core-group-is-layout-9aa3d7b7 wp-block-group-is-layout-constrained">
 <div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#24212b;padding:24px">
-<p class="wp-block-paragraph" style="color:#d68cf1;font-size:12px;font-weight:700;letter-spacing:2px">01 · ROZMOWA</p>
+<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #24212b; padding: 24px;">
+<p class="wp-block-paragraph" style="color: #d68cf1; font-size: 12px; font-weight: bold; letter-spacing: 2px;">01 · ROZMOWA</p>
 
+<h3 class="wp-block-heading has-white-color has-text-color" style="font-size: 26px; line-height: 1.08;">Poznaję Twój pomysł</h3>
 
-<h3 class="wp-block-heading has-white-color has-text-color" style="font-size:26px;line-height:1.08">Poznaję Twój pomysł</h3>
-
-
-<p class="wp-block-paragraph" style="color:#c6c3cc">Ustalamy cel filmu, odbiorców, miejsce publikacji i klimat materiału.</p>
-
+<p class="wp-block-paragraph" style="color: #c6c3cc;">Ustalamy cel filmu, odbiorców, miejsce publikacji i klimat materiału.</p>
 </div>
-
 </div>
-
 
 <div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#24212b;padding:24px">
-<p class="wp-block-paragraph" style="color:#d68cf1;font-size:12px;font-weight:700;letter-spacing:2px">02 · PLAN</p>
+<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #24212b; padding: 24px;">
+<p class="wp-block-paragraph" style="color: #d68cf1; font-size: 12px; font-weight: bold; letter-spacing: 2px;">02 · PLAN</p>
 
+<h3 class="wp-block-heading has-white-color has-text-color" style="font-size: 26px; line-height: 1.08;">Przygotowuję realizację</h3>
 
-<h3 class="wp-block-heading has-white-color has-text-color" style="font-size:26px;line-height:1.08">Przygotowuję realizację</h3>
-
-
-<p class="wp-block-paragraph" style="color:#c6c3cc">Ustalamy zakres, termin, potrzebne ujęcia i sposób pracy na planie.</p>
-
-</div>
-
+<p class="wp-block-paragraph" style="color: #c6c3cc;">Ustalamy zakres, termin, potrzebne ujęcia i sposób pracy na planie.</p>
 </div>
 </div>
-
+</div>
 <!-- wp:columns [] -->
 <div class="wp-block-columns">
 <div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#24212b;padding:24px">
-<p class="wp-block-paragraph" style="color:#d68cf1;font-size:12px;font-weight:700;letter-spacing:2px">03 · ZDJĘCIA</p>
+<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #24212b; padding: 24px;">
+<p class="wp-block-paragraph" style="color: #d68cf1; font-size: 12px; font-weight: bold; letter-spacing: 2px;">03 · ZDJĘCIA</p>
 
+<h3 class="wp-block-heading has-white-color has-text-color" style="font-size: 26px; line-height: 1.08;">Nagrywam materiał</h3>
 
-<h3 class="wp-block-heading has-white-color has-text-color" style="font-size:26px;line-height:1.08">Nagrywam materiał</h3>
-
-
-<p class="wp-block-paragraph" style="color:#c6c3cc">Realizuję ujęcia zgodnie z uzgodnionym planem i pomysłem.</p>
-
+<p class="wp-block-paragraph" style="color: #c6c3cc;">Realizuję ujęcia zgodnie z uzgodnionym planem i pomysłem.</p>
 </div>
-
 </div>
-
 
 <div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
-<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#24212b;padding:24px">
-<p class="wp-block-paragraph" style="color:#d68cf1;font-size:12px;font-weight:700;letter-spacing:2px">04 · MONTAŻ</p>
+<div class="wp-block-group has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-2276190b wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #24212b; padding: 24px;">
+<p class="wp-block-paragraph" style="color: #d68cf1; font-size: 12px; font-weight: bold; letter-spacing: 2px;">04 · MONTAŻ</p>
 
+<h3 class="wp-block-heading has-white-color has-text-color" style="font-size: 26px; line-height: 1.08;">Dopracowuję film</h3>
 
-<h3 class="wp-block-heading has-white-color has-text-color" style="font-size:26px;line-height:1.08">Dopracowuję film</h3>
-
-
-<p class="wp-block-paragraph" style="color:#c6c3cc">Montuję materiał i przygotowuję plik w ustalonym formacie.</p>
-
-</div>
-
+<p class="wp-block-paragraph" style="color: #c6c3cc;">Montuję materiał i przygotowuję plik w ustalonym formacie.</p>
 </div>
 </div>
-<!-- /wp:post-content -->
 </div>
-<!-- /wp:group -->
-<!-- wp:group {"align":"full","style":{"color":{"background":"#17151c","text":"#f3f1f5"},"spacing":{"padding":{"top":"72px","bottom":"72px","left":"24px","right":"24px"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
-<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained" style="color:#f3f1f5;background-color:#17151c;padding-top:72px;padding-right:24px;padding-bottom:72px;padding-left:24px"><!-- wp:heading {"level":2,"textColor":"white","style":{"typography":{"fontSize":"clamp(34px, 5vw, 52px)","lineHeight":"1.08"}}} -->
-<h2 class="wp-block-heading has-white-color has-text-color" style="font-size:clamp(34px, 5vw, 52px);line-height:1.08">Masz pytania albo gotowy pomysł?</h2>
-<!-- /wp:heading -->
-<!-- wp:paragraph {"style":{"color":{"text":"#d2cfd8"}}} -->
-<p style="color:#d2cfd8">Napisz do mnie — ustalimy wspólnie najlepszy format.</p>
-<!-- /wp:paragraph -->
-<!-- wp:buttons [] -->
+<!-- /wp:columns --></div>
+<!-- /wp:group --><!-- wp:group {"align":"full","style":{"color":{"background":"#17151c","text":"#f3f1f5"},"spacing":{"padding":{"top":"72px","bottom":"72px","left":"24px","right":"24px"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+<div class="wp-block-group alignfull has-text-color has-background is-layout-constrained wp-block-group-is-layout-constrained" style="color: #f3f1f5; background-color: #17151c; padding: 72px 24px 72px 24px;"><!-- wp:heading {"level":2,"textColor":"white","style":{"typography":{"fontSize":"clamp(34px, 5vw, 52px)","lineHeight":"1.08"}}} -->
+<h2 class="wp-block-heading has-white-color has-text-color" style="font-size: clamp(34px, 5vw, 52px); line-height: 1.08;">Masz pytania albo gotowy pomysł?</h2>
+<!-- /wp:heading --><!-- wp:paragraph {"style":{"color":{"text":"#d2cfd8"}}} -->
+<p style="color: #d2cfd8;">Napisz do mnie — ustalimy wspólnie najlepszy format.</p>
+<!-- /wp:paragraph --><!-- wp:buttons [] -->
 <div class="wp-block-buttons"><!-- wp:button {"backgroundColor":"vivid-purple","textColor":"white","url":"../oferta/"} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-vivid-purple-background-color has-text-color has-background wp-element-button" href="../oferta/">Zobacz ofertę ↗</a></div>
-<!-- /wp:button -->
-<!-- wp:button {"backgroundColor":"vivid-purple","textColor":"white","url":"../#kontakt"} -->
+<!-- /wp:button --><!-- wp:button {"backgroundColor":"vivid-purple","textColor":"white","url":"../#kontakt"} -->
 <div class="wp-block-button"><a class="wp-block-button__link has-white-color has-vivid-purple-background-color has-text-color has-background wp-element-button" href="../#kontakt">Skontaktuj się ↗</a></div>
-<!-- /wp:button -->
-</div>
-<!-- /wp:buttons -->
-</div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons --></div>
 <!-- /wp:group -->
-</div>
+<p> </p>								</div>
+				</div>
+				</div>
+		</div>
 <footer class="wp-block-template-part">
 <div class="wp-block-group alignfull has-text-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-93180664 wp-block-group-is-layout-constrained" style="color:#17151c;background-color:#d8d6dc;padding-top:18px;padding-right:24px;padding-bottom:18px;padding-left:24px;margin-top:0;margin-bottom:0">
 <p class="has-text-align-center wp-block-paragraph" style="font-size:12px">© OlafxVlog</p>
@@ -291,6 +309,13 @@ html, body {
 </footer>
 </div>
 </div>
+
+
+
+
+
+
+
 
 
 
