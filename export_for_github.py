@@ -176,14 +176,19 @@ def main() -> None:
         html = rewrite_page_links(html, target)
         if target == DOCS / "moje-realizacje/index.html":
             html = render_youtube_embeds(html)
-        # Elementor's frontend CSS is emitted by WordPress's runtime, so it is
-        # absent from static HTML. Load the downloaded local stylesheets here.
-        if target == DOCS / "moje-realizacje/index.html":
-            elementor_css = (
-                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/base-desktop.css">'
-                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/local-99-frontend-desktop.css">'
-                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/local-99-frontend-mobile.css">'
-                '<link rel="stylesheet" href="../wp-content/uploads/elementor/css/post-99.css">'
+        # Elementor prints its layout CSS through WordPress at runtime. These
+        # files need to be linked explicitly in the static GitHub Pages export.
+        elementor_page_id = next(
+            (page_id for page_id, route_file in PAGE_ROUTES.items() if DOCS / route_file == target),
+            None,
+        )
+        if elementor_page_id is not None:
+            css_files = ["post-49.css", "base-desktop.css", "base-mobile.css", f"post-{elementor_page_id}.css"]
+            if elementor_page_id == 99:
+                css_files.extend(["local-99-frontend-desktop.css", "local-99-frontend-mobile.css"])
+            css_dir = "../wp-content/uploads/elementor/css/" if target.parent != DOCS else "wp-content/uploads/elementor/css/"
+            elementor_css = "".join(
+                f'<link rel="stylesheet" href="{css_dir}{name}">' for name in css_files
             )
             html = html.replace("</head>", elementor_css + "</head>")
         html = html.replace(
