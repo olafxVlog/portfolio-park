@@ -221,17 +221,39 @@ def main() -> None:
             html = html.replace('action="/"', 'action="../"').replace("action='/'", "action='../'")
             html = html.replace("http://localhost:8080/", "../")
         if is_home:
-            html = html.replace('<form action="./#wpcf7-', '<form onsubmit="return false" action="./#wpcf7-')
-            html = html.replace(
-                '<input class="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value="Wyślij" />',
-                '<a class="wpcf7-form-control wpcf7-submit" href="https://www.instagram.com/olafxvlog/" '
-                'target="_blank" rel="noopener">Napisz na Instagramie ↗</a>',
+            # GitHub Pages cannot run WordPress/PHP handlers. Submit this form
+            # through FormSubmit's hosted email endpoint instead.
+            def configure_contact_form(match: re.Match[str]) -> str:
+                attrs = re.sub(r'\s(?:action|method|onsubmit|novalidate)="[^"]*"', '', match.group(1))
+                return (
+                    '<form' + attrs
+                    + ' action="https://formsubmit.co/olafjatkowski@wp.pl" method="POST">'
+                )
+
+            html = re.sub(
+                r'<form(?=[^>]*class="[^"]*\bwpcf7-form\b[^"]*")([^>]*)>',
+                configure_contact_form,
+                html,
+                count=1,
             )
-            html = html.replace(
-                '<div class="wpcf7-response-output"',
-                '<p class="wpcf7-static-note">To statyczny podgląd — formularz nie wysyła wiadomości. '
-                'Skontaktuj się ze mną przez Instagram.</p><div class="wpcf7-response-output"',
+            html = re.sub(
+                r'<fieldset class="hidden-fields-container">.*?</fieldset>',
+                '<fieldset class="hidden-fields-container">'
+                '<input type="hidden" name="_subject" value="Nowa wiadomość z portfolio OlafxVlog" />'
+                '<input type="text" name="_honey" tabindex="-1" autocomplete="off" '
+                'style="position:absolute;left:-9999px" />'
+                '</fieldset>',
+                html,
+                count=1,
+                flags=re.S,
             )
+            html = html.replace('name="your-name"', 'name="name"')
+            html = html.replace('name="your-email"', 'name="email"')
+            html = html.replace('name="your-subject"', 'name="subject"')
+            html = html.replace('name="your-message"', 'name="message"')
+            html = html.replace('name="name" />', 'name="name" required />')
+            html = html.replace('name="email" />', 'name="email" required />')
+            html = html.replace('name="subject" />', 'name="subject" required />')
         target.write_text(re.sub(r"[ \t]+\n", "\n", html), encoding="utf-8")
 
     print(f"Created static pages and downloaded {len(seen)} WordPress assets into {DOCS}")
