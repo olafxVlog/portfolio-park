@@ -199,6 +199,7 @@ def main() -> None:
             '.elementor-73 .elementor-element-36d092e{width:100%;margin:22px auto 30px;padding:0 20px;box-sizing:border-box}'
             '.elementor-73 .elementor-social-icons-wrapper{display:flex!important;flex-flow:row wrap!important;justify-content:center!important;align-items:center!important;gap:12px!important}'
             '.elementor-73 .elementor-social-icons-wrapper .elementor-grid-item{display:block!important;flex:0 0 auto!important}'
+            '.elementor-73 .elementor-social-icons-wrapper .elementor-screen-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}'
             '.elementor-73 .elementor-social-icons-wrapper .elementor-icon{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:46px!important;height:46px!important;padding:0!important;border-radius:50%!important;background:#292631!important;color:#f4eff8!important;transition:transform .2s ease,background .2s ease}'
             '.elementor-73 .elementor-social-icons-wrapper .elementor-icon:hover{transform:translateY(-3px);background:#8c4bd1!important}'
             '.elementor-73 .elementor-social-icons-wrapper svg{display:block!important;width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;fill:currentColor!important}'
