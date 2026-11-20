@@ -225,7 +225,7 @@ def main() -> None:
             '.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}'
             '.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}'
             '.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}'
-            'body.page-id-73 .portfolio-brand-nav,.wp-block-group:has(> nav.wp-block-navigation){display:none!important}'
+            '.portfolio-brand-nav,body:not(.page-id-73) .wp-block-group:has(> .portfolio-brand-nav),.wp-block-group:has(> nav.wp-block-navigation){display:none!important}'
             '.ov-site-header{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;min-height:64px;padding:12px 24px;box-sizing:border-box;background:#17151c;color:#d68cf1;font-family:inherit}'
             'body.page-id-73 .ov-site-header{position:absolute;top:0;left:0;background:transparent}'
             '.ov-site-brand{flex:0 0 auto;color:#d68cf1!important;text-decoration:none!important;font-size:16px;font-weight:800;letter-spacing:.5px}'
