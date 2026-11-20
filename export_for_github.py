@@ -30,6 +30,14 @@ PAGE_ROUTES = {
     189: "zdjecia-z-planow/index.html",
     74: "jak-dzialam/index.html",
 }
+MENU_ITEMS = [
+    ("Start", 73),
+    ("Moje realizacje", 99),
+    ("O mnie", 72),
+    ("Zdjęcia z planów", 189),
+    ("Jak działam", 74),
+    ("Oferta", 113),
+]
 ASSET_RE = re.compile(r"(?:https?://localhost:8080)?(/(?:wp-content|wp-includes)/[^\s\"'<>),;]+)")
 CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)(.*?)\1\s*\)", re.I)
 YOUTUBE_BLOCK_RE = re.compile(
@@ -123,6 +131,25 @@ def render_youtube_embeds(source: str) -> str:
     return YOUTUBE_BLOCK_RE.sub(replace, source)
 
 
+def render_site_header(from_file: Path) -> str:
+    links = []
+    for label, page_id in MENU_ITEMS:
+        route_dir = (DOCS / PAGE_ROUTES[page_id]).parent.resolve()
+        relative = os.path.relpath(route_dir, from_file.parent.resolve()).replace(os.sep, "/")
+        href = "./" if relative == "." else relative.rstrip("/") + "/"
+        links.append(f'<a href="{href}">{html.escape(label)}</a>')
+    link_html = "".join(links)
+    return (
+        '<header class="ov-site-header">'
+        '<a class="ov-site-brand" href="' + ("./" if from_file == DOCS / "index.html" else "../") + '">OlafxVlog</a>'
+        '<nav class="ov-desktop-navigation" aria-label="Menu główne">' + link_html + '</nav>'
+        '<details class="ov-mobile-navigation">'
+        '<summary aria-label="Pokaż menu"><span aria-hidden="true">☰</span> Menu</summary>'
+        '<nav class="ov-mobile-links" aria-label="Menu główne">' + link_html + '</nav>'
+        '</details></header>'
+    )
+
+
 def main() -> None:
     DOCS.mkdir(exist_ok=True)
     fetched_pages: list[tuple[Path, str]] = []
@@ -198,6 +225,20 @@ def main() -> None:
             '.wp-block-navigation__responsive-container{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;background:transparent!important}'
             '.wp-block-navigation__responsive-container-content{display:block!important;visibility:visible!important}'
             '.wp-block-navigation__container{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:1rem!important}'
+            '.wp-block-group:has(> .portfolio-brand-nav),.wp-block-group:has(> nav.wp-block-navigation){display:none!important}'
+            '.ov-site-header{position:relative;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;min-height:64px;padding:12px 24px;box-sizing:border-box;background:#17151c;color:#d68cf1;font-family:inherit}'
+            'body.page-id-73 .ov-site-header{position:absolute;top:0;left:0;background:transparent}'
+            '.ov-site-brand{flex:0 0 auto;color:#d68cf1!important;text-decoration:none!important;font-size:16px;font-weight:800;letter-spacing:.5px}'
+            '.ov-desktop-navigation{display:flex;align-items:center;justify-content:flex-end;gap:clamp(10px,1.7vw,22px);min-width:0;white-space:nowrap}'
+            '.ov-desktop-navigation a,.ov-mobile-links a{color:#d68cf1!important;text-decoration:none!important;font-size:13px;font-weight:600;line-height:1.35}'
+            '.ov-desktop-navigation a:hover,.ov-mobile-links a:hover{color:#fff!important}'
+            '.ov-mobile-navigation{display:none;position:relative;margin-left:auto}'
+            '.ov-mobile-navigation summary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 15px;border:1px solid #56445f;border-radius:999px;background:#292631;color:#f5eafb;font-size:14px;font-weight:700;list-style:none;cursor:pointer}'
+            '.ov-mobile-navigation summary::-webkit-details-marker{display:none}'
+            '.ov-mobile-links{position:absolute;top:calc(100% + 10px);right:0;z-index:110;display:flex;flex-direction:column;gap:2px;width:min(270px,calc(100vw - 32px));padding:9px;border:1px solid #393440;border-radius:17px;background:#211e27;box-shadow:0 18px 46px rgba(0,0,0,.4)}'
+            '.ov-mobile-links a{display:flex;align-items:center;min-height:46px;padding:0 14px;border-radius:10px;font-size:15px}'
+            '.ov-mobile-links a:hover{background:#302c37}'
+            '.ov-form-status{margin:12px 0 0;color:#d7f6de;font-size:14px;line-height:1.5}'
             '.portfolio-brand-nav{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:center!important;gap:12px!important;overflow-x:auto!important;white-space:nowrap!important}'
             '.portfolio-brand-nav p{margin:0!important}'
             '.portfolio-brand-nav a{color:#d68cf1!important;text-decoration:none!important}'
@@ -225,6 +266,7 @@ def main() -> None:
             '@media(max-width:760px){.portfolio-brand-nav{gap:10px!important}.portfolio-brand-nav p{font-size:13px!important}}'
             '@media(max-width:767px){.elementor-99 .e-youtube-base{width:300px;max-width:calc(100vw - 48px);margin:8px auto;display:block!important}.elementor-99 .e-235416d-37e6544,.elementor-99 .e-8392875-91f4352,.elementor-99 .e-40be9d1-95b2715,.elementor-99 .e-2113d0b-c2fb46c,.elementor-99 .e-3a06204-0a8653b{width:220px}}'
             '@media(max-width:600px){.elementor-73 .elementor-element-06c989a{width:calc(100% - 32px)!important}.elementor-73 .elementor-element-06c989a .wpcf7{padding:21px 17px!important;border-radius:18px!important}.elementor-73 .elementor-social-icons-wrapper{gap:10px!important}.elementor-73 .elementor-social-icons-wrapper .elementor-icon{width:44px!important;height:44px!important}}'
+            '@media(max-width:860px){.ov-site-header{min-height:62px;padding:10px 16px;gap:12px}.ov-desktop-navigation{display:none!important}.ov-mobile-navigation{display:block!important}.wp-block-buttons{display:flex!important;flex-flow:row wrap!important;align-items:center!important;gap:12px!important}.wp-block-buttons>.wp-block-button{flex:0 1 auto!important;width:auto!important;max-width:100%!important;margin:0!important}.wp-block-button__link{display:inline-flex!important;align-items:center!important;justify-content:center!important;max-width:100%!important;min-height:46px;box-sizing:border-box!important;white-space:normal!important;overflow-wrap:anywhere;line-height:1.35!important;text-align:center!important;padding:12px 18px!important}.elementor .elementor-button-wrapper{display:flex!important;flex-flow:row wrap!important;align-items:center!important;gap:12px!important;max-width:100%}.elementor .elementor-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;max-width:100%!important;min-height:46px;box-sizing:border-box!important;white-space:normal!important;overflow-wrap:anywhere;line-height:1.35!important;text-align:center!important;padding:12px 18px!important}.elementor .elementor-element{min-width:0}.elementor .e-con,.elementor .e-con-inner{max-width:100%;box-sizing:border-box}.elementor img,.wp-block-image img{max-width:100%;height:auto}.wp-site-blocks{overflow-x:clip}}'
             '</style></head>',
         )
         is_home = target == DOCS / "index.html"
@@ -279,6 +321,30 @@ def main() -> None:
             html = html.replace('name="name" />', 'name="name" required />')
             html = html.replace('name="email" />', 'name="email" required />')
             html = html.replace('name="subject" />', 'name="subject" required />')
+        site_header = render_site_header(target)
+        html = re.sub(r'(<body\b[^>]*>)', lambda match: match.group(1) + site_header, html, count=1)
+        if is_home:
+            ajax_script = """<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var form=document.querySelector('.wpcf7-form');
+  if(!form)return;
+  form.addEventListener('submit',function(event){
+    event.preventDefault();
+    var button=form.querySelector('[type=submit]');
+    var original=button?button.value:'';
+    if(button){button.disabled=true;button.value='Wysyłam wiadomość…';}
+    var status=document.createElement('p');
+    status.className='ov-form-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+    status.textContent='Wysyłam wiadomość…';form.appendChild(status);
+    var payload=Object.fromEntries(new FormData(form).entries());
+    fetch('https://formsubmit.co/ajax/olafjatkowski@wp.pl',{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(response){return response.json().then(function(data){if(!response.ok||data.success===false)throw new Error('send failed');return data;});})
+      .then(function(){status.textContent='Wiadomość została przyjęta. Dziękuję za kontakt!';form.reset();setTimeout(function(){window.location.href='https://olafxvlog.github.io/portfolio-park/dziekuje/';},900);})
+      .catch(function(){status.remove();if(button){button.disabled=false;button.value=original;}form.submit();});
+  });
+});
+</script>"""
+            html = html.replace("</body>", ajax_script + "</body>")
         target.write_text(re.sub(r"[ \t]+\n", "\n", html), encoding="utf-8")
 
     thank_you = DOCS / "dziekuje/index.html"
